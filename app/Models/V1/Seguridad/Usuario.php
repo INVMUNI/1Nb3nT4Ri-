@@ -1,0 +1,158 @@
+<?php
+
+namespace App\Models\V1\Seguridad;
+
+use App\Models\V1\Catalogo\Departamento;
+use Laravel\Passport\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class Usuario extends Authenticatable
+{
+    use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
+
+    const USUARIO_ADMINISTRADOR = 'ADMINISTRADOR';
+    const USUARIO_REGULAR = 'REGULAR';
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'cui',
+        'first_name',
+        'second_name',
+        'surname',
+        'second_surname',
+        'married_name',
+        'admin',
+        'photo',
+        'email',
+        'observation',
+        'ubication',
+        'phone',
+        'departament_id',
+        'municipality_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'email_verified_at',
+        'password',
+        'remember_token'
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime:d/m/Y h:i:s a',
+        'created_at' => 'datetime:d/m/Y h:i:s a',
+        'updated_at' => 'datetime:d/m/Y h:i:s a',
+        'deleted_at' => 'datetime:d/m/Y h:i:s a'
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['full_name'];
+
+
+    /**
+     * Search user passport.
+     *
+     * @return object
+     */
+    public function findForPassport($username)
+    {
+        return $this->where('cui', $username)->first();
+    }
+
+    /**
+     * Get the user's full name.
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return str_replace('  ', ' ', "{$this->first_name} {$this->second_name} {$this->surname} {$this->second_surname} {$this->married_name}");
+    }
+
+    /**
+     * Set the user's email.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
+
+    /**
+     * Set the user's password.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
+
+    /**
+     * Get the department associated with the user.
+     *
+     * @return object
+     */
+    public function departament()
+    {
+        return $this->hasOne(Departamento::class, 'id', 'departament_id');
+    }
+
+    /**
+     * Get the municipality associated with the user.
+     *
+     * @return object
+     */
+    public function municipality()
+    {
+        return $this->hasOne(Municipality::class, 'id', 'municipality_id');
+    }
+
+    /**
+     * Get the rols associated with the user.
+     *
+     * @return array
+     */
+    public function rols()
+    {
+        return $this->hasMany(UsuarioRol::class, 'user_id', 'id');
+    }
+}
