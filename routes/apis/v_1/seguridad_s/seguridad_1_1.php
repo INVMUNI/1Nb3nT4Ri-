@@ -26,7 +26,7 @@ Route::resource('user', 'Usuario\UsuarioController')->except('create', 'show');
 Route::resource('user_rol', 'Usuario\UsuarioRolController')->except('index', 'create', 'edit', 'update');
 
 //rutas para RolController
-Route::resource('rol', 'Rol\RolController')->except('index', 'create', 'edit', 'show', 'update');
+Route::resource('rol', 'Rol\RolController')->except('create', 'edit', 'show', 'update');
 
 //rutas para RolMenuController
 Route::resource('rol_menu', 'Rol\RolMenuController')->except('index', 'create', 'edit', 'show', 'update');

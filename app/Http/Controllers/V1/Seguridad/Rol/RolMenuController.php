@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\V1\Seguridad\Rol;
 
+use Illuminate\Http\Request;
 use App\Models\V1\Seguridad\Menu;
 use App\Models\V1\Seguridad\RolMenu;
 use App\Http\Controllers\ApiController;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Request;
 
 class RolMenuController extends ApiController
 {
@@ -57,8 +57,7 @@ class RolMenuController extends ApiController
         try {
 
             foreach ($request->eliminar as $value) {
-                $menu = RolMenu::find($value['id']);
-                $menu->forceDelete();
+                RolMenu::find($value['id'])->forceDelete();
             }
 
             return $this->successResponse('Registro desactivado');

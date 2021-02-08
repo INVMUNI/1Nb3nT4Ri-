@@ -80,15 +80,15 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('security', function (Request $request) {
-            return Limit::perMinute(5)->by(optional($request->user())->id ?: $request->ip());
-        });
-
-        RateLimiter::for('catalogo', function (Request $request) {
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
 
-        RateLimiter::for('principal', function (Request $request) {
+        RateLimiter::for('catalogo', function (Request $request) {
             return Limit::perMinute(120)->by(optional($request->user())->id ?: $request->ip());
+        });
+
+        RateLimiter::for('principal', function (Request $request) {
+            return Limit::perMinute(160)->by(optional($request->user())->id ?: $request->ip());
         });
     }
 }
