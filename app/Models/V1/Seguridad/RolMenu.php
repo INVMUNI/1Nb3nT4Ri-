@@ -50,7 +50,7 @@ class RolMenu extends Model
      */
     public function rol()
     {
-        return $this->hasOne(Rol::class, 'id', 'rol_id');
+        return $this->belongsTo(Rol::class, 'rol_id', 'id');
     }
 
     /**
@@ -60,6 +60,6 @@ class RolMenu extends Model
      */
     public function menu()
     {
-        return $this->hasOne(Menu::class, 'id', 'menu_id');
+        return $this->belongsTo(Menu::class, 'menu_id', 'id');
     }
 }

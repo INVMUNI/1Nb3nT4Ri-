@@ -22,7 +22,6 @@ trait ApiResponser
 
 	protected function showAll(Collection $collection, $code = 200)
 	{
-		$collection = $this->filterData($collection);
 		return response()->json(['data' => $collection], $code);
 	}
 

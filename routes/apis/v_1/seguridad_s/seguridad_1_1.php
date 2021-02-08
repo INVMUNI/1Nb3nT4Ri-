@@ -18,3 +18,19 @@ use Illuminate\Support\Facades\Route;
 Route::name('me')->get('auth/me', 'Usuario\AuthController@me');
 Route::name('login')->post('auth/login', 'Usuario\AuthController@login');
 Route::name('logout')->get('auth/logout', 'Usuario\AuthController@logout');
+
+//rutas para UsuarioController
+Route::resource('user', 'Usuario\UsuarioController')->except('create', 'show');
+
+//rutas para UsuarioController
+Route::resource('user_rol', 'Usuario\UsuarioRolController')->except('index', 'create', 'edit', 'update');
+
+//rutas para RolController
+Route::resource('rol', 'Rol\RolController')->except('index', 'create', 'edit', 'show', 'update');
+
+//rutas para RolMenuController
+Route::resource('rol_menu', 'Rol\RolMenuController')->except('index', 'create', 'edit', 'show', 'update');
+Route::name('rol_menu.eliminar_masivo')->post('rol_menu/eliminar_masivo', 'Rol\RolMenuController@eliminario_masiva');
+
+//rutas para MenuController
+Route::resource('menu', 'Menu\MenuController')->only('index');

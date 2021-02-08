@@ -23,9 +23,17 @@ class UsuarioRolFactory extends Factory
      */
     public function definition()
     {
-        return [
-            'user_id' => Usuario::all()->random()->id,
-            'rol_id' => Rol::all()->random()->id
-        ];
+        $usuario = Usuario::all()->random()->id;
+        $rol = Rol::all()->random()->id;
+
+        if(is_null(UsuarioRol::where('user_id', $usuario)->where('rol_id', $rol)->first())) {
+            return [
+                'user_id' => $usuario,
+                'rol_id' => $rol
+            ];
+        } else {
+            return [];
+        }
+
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Models\V1\Seguridad;
 
-use App\Models\V1\Catalogo\Departamento;
 use Laravel\Passport\HasApiTokens;
+use App\Models\V1\Catalogo\Departamento;
+use App\Models\V1\Catalogo\Municipio;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -133,7 +134,7 @@ class Usuario extends Authenticatable
      */
     public function departament()
     {
-        return $this->hasOne(Departamento::class, 'id', 'departament_id');
+        return $this->belongsTo(Departamento::class, 'departament_id', 'id');
     }
 
     /**
@@ -143,7 +144,7 @@ class Usuario extends Authenticatable
      */
     public function municipality()
     {
-        return $this->hasOne(Municipality::class, 'id', 'municipality_id');
+        return $this->belongsTo(Municipio::class, 'municipality_id', 'id');
     }
 
     /**

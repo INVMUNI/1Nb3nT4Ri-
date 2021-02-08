@@ -24,7 +24,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['*'], //http://localhost:8001 falta la configuracion segura
 
     'allowed_origins_patterns' => [],
 

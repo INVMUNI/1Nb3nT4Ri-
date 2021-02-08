@@ -4,10 +4,11 @@ namespace App\Models\V1\Seguridad;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UsuarioRol extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -51,7 +52,7 @@ class UsuarioRol extends Model
      */
     public function user()
     {
-        return $this->hasOne(Usuario::class, 'id', 'user_id');
+        return $this->belongsTo(Usuario::class, 'user_id', 'id');
     }
 
     /**
@@ -61,6 +62,6 @@ class UsuarioRol extends Model
      */
     public function rol()
     {
-        return $this->hasOne(Rol::class, 'id', 'rol_id');
+        return $this->belongsTo(Rol::class, 'rol_id', 'id');
     }
 }
